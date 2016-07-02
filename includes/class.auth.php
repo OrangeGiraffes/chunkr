@@ -4,7 +4,7 @@
     {
         public function DoLogin()
         {
-            $email = strip_tags($_POST['email']);
+            $email = strip_tags(strtolower($_POST['email']));
             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $password = $_POST['password'];
                 if($this->ValidateLogin($email,$password)) {
@@ -19,28 +19,33 @@
         }
         public function DoRegister()
         {
-           /***
-            $email = mysqli_real_escape_string($_POST['username']);
-            $password = mysqli_real_escape_string(hash("sha512", $_POST['password']));
-            $e_mail = '';
-            if($_POST['email']) {
-                $name = mysqli_real_escape_string(strip_tags($_POST['email']));
+            $email = strip_tags(strtolower($_POST['email']));
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $password = $_POST['password'];
+                if($this->ValidateLogin($email,$password)) {
+                    //that would be bad - that'd mean the user already exists
+                    ThrowError('Oops! That user already exists. Please register with a different email address.');
+                }else{
+                    //kick this pig. Insert the new user.
+                    $salt = uniqid();
+                    $hashed = crypt($GLOBALS['APPDB']->Quote($password),$salt);
+                    $init = $GLOBALS['ISC_CLASS_DB']->Query("
+                        INSERT INTO user
+                        (email,password,salt)
+                        VALUES
+                        ('$email','$hashed','$salt')
+                    ");
+                }
             }
-            $check = mysqli_fetch_array(mysql_query("SELECT * 
-                                                     FROM user
-                                                     WHERE 'email' = '$e_mail'"));
-            if($check != '0')  {
-                ThrowError("That email already exists!");
-            }
-            mysqli_query("INSERT INTO user
-                         (´email´, ´password´, ´salt´,) VALUES
-                         ('$email', '$password', '$salt')");
-            ***/
         }
         
-        public function UserIsAdmin()
+        public function UserIsAdmin($email)
         {
-            
+            $adminQuery = $GLOBALS['APPDB']->Query("SELECT COUNT(*) FROM user WHERE isadmin = 1 AND email = '$email'");
+            if($GLOBALS['APPDB']->FetchOne($adminQuery) > 0){
+                return true;
+            }
+            return false;
         }
         
         public function DoLogout()
@@ -58,7 +63,7 @@
         private function GetUserIdFromEmail($email)
         {}
         
-        private function ValidateLogin($email,$password)
+        private function ValidateLogin($email,$password,$adminRequest=false)
         {
             $pull = $GLOBALS['APPDB']->Query("SELECT salt FROM user WHERE email='$email'");
             $salt = $GLOBALS['APPDB']->FetchOne($pull);
@@ -68,6 +73,11 @@
             $hashed = crypt($GLOBALS['APPDB']->Quote($password),$salt);
             $validateCall = $GLOBALS['APPDB']->Query("SELECT COUNT(*) FROM user WHERE email = '$email' AND password = '$hashed'");
             if ($GLOBALS['APPDB']->FetchOne($validateCall) > 0) {
+                if($adminRequest){
+                    if(!UserIsAdmin($email)){
+                        ThrowError('That user is not an admin user');
+                    }
+                }
                 return true;
             }else{
                 ThrowError('Oops! That email/password combination was not found. Please try again.');
