@@ -20,17 +20,17 @@ function Parse($templateFile)
 {
     die(
     ShowHeader() .
-        file_get_contents(APP_TEMPLATE_PATH . $templateFile . '.html') .
+        preg_replace("/\{{([^\{]{1,100}?)\}}/e","\$GLOBALS['$1']",file_get_contents(APP_TEMPLATE_PATH . $templateFile . '.html')) .
     ShowFooter()
     );
 }
 
 function ShowHeader(){
-    return file_get_contents(APP_TEMPLATE_PATH . 'header.html');
+    return preg_replace("/\{{([^\{]{1,100}?)\}}/e","\$GLOBALS['$1']",file_get_contents(APP_TEMPLATE_PATH . 'header.html'));
 }
 
 function ShowFooter(){
-    return file_get_contents(APP_TEMPLATE_PATH . 'footer.html');
+    return preg_replace("/\{{([^\{]{1,100}?)\}}/e","\$GLOBALS['$1']",file_get_contents(APP_TEMPLATE_PATH . 'footer.html'));
 }
 
 function GetCookie($cookieName)
