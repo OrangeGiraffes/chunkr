@@ -49,7 +49,11 @@
         }
         
         public function DoLogout()
-        {}
+        {
+            setcookie('chunkr','',time()-10000,'/','/');
+            unset($_SESSION['user_logged_in']);
+            
+        }
         
         public function ForgotPassword()
         {}
@@ -84,64 +88,3 @@
             }
         }
     }
-        
-        
-    
-            
-    /*****PREVIOUS CODE
-    //LOGIN
-   session_start();
-    if($_POST['login']) {
-        include_once("class.db.php");
-        $email = strip_tags($_POST[email]);
-        $password = strip_tags($_POST[password]);
-        
-         $email = stripslashes($email);
-         $password = stripslashes(password);
-         
-        $email = mysqli_real_escape_string($email);
-        $password = mysqli_real_escape_string($password);
-        
-        $password = md5($password);
-        
-        $sql = "SELECT *
-                FROM user
-                WHERE email='$email'
-                LIMIT 1";
-        $query = mysqli_query($db, $sql);
-        $row = mysqli_fetch_array($query);
-        
-        $userid = $row['userid'];
-        $db_password = $row['password'];
-        
-        if($password == $db_password) {
-            $_SESSION['email'] = $email;
-            $_SESSION['userid'] = $userid;
-            
-            header("Location: index.php");
-        } else {
-            echo "Wrong details!";
-        }
-    }
-
-    //REGISTER
-    if($_POST['register']) {
-        if($_POST['email'] $$ $_POST['password']) {
-            $email = mysqli_real_escape_string($_POST['username']);
-            $password = mysqli_real_escape_string(hash("sha512", $_POST['password']));
-            $e_mail = '';
-            if($_POST['email']) {
-                $name = mysqli_real_escape_string(strip_tags($_POST['email']));
-            }
-            $check = mysqli_fetch_array(mysql_query("SELECT * 
-                                                     FROM user
-                                                     WHERE 'email' = '$e_mail'"));
-            if($check != '0')  {
-                die("That email already exists!");
-            }
-            mysqli_query("INSERT INTO user
-                         (´email´, ´password´, ´salt´,) VALUES
-                         ('$email', '$password', '$salt')");
-        }
-    }
-    **********/
