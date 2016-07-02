@@ -11,6 +11,7 @@
                     $sessionId = uniqid();
                     //Set Session Variable and Cookie
                     $_SESSION['user_logged_in'] = $sessionId;
+                    $_SESSION['uid'] = GetUserIdFromEmail($email);
                     setcookie('chunkr',$sessionId,time()+24400,'/','/');
                 }
             }else{
@@ -52,6 +53,7 @@
         {
             setcookie('chunkr','',time()-10000,'/','/');
             unset($_SESSION['user_logged_in']);
+            unset($_SESSION['uid']);
             
         }
         /**
@@ -85,16 +87,26 @@
         }
         
         /*
-         * Gets everything from the DB for this user
+         * Gets everything from the DB for this user in an array
          *
          */
         private function GetUserFromEmail($email)
         {
+            $pull = $GLOBALS['APPDB']->Query("SELECT * FROM user WHERE email = '" . $GLOBALS['APPDB']->Quote($email) . "'");
+            return (int)$GLOBALS['APPDB']->Fetch($pull);
             
         }
         
+        /*
+         * Gets the User ID based on the email address
+         *
+         */
+        
         private function GetUserIdFromEmail($email)
-        {}
+        {
+            $pull = $GLOBALS['APPDB']->Query("SELECT userid FROM user WHERE email = '" . $GLOBALS['APPDB']->Quote($email) . "'");
+            return (int)$GLOBALS['APPDB']->FetchOne($pull);
+        }
         
         private function ValidateLogin($email,$password,$adminRequest=false)
         {
