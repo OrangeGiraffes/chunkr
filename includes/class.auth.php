@@ -54,13 +54,40 @@
             unset($_SESSION['user_logged_in']);
             
         }
-        
+        /**
+         * Show Forgot Password Screen
+         *
+         */
         public function ForgotPassword()
-        {}
+        {
+            die(Parse('forgot')); 
+        }
         
-        public function UpdateUser()
-        {}
+        public function EmailResetLink()
+        {
+            //get the email from the post and validate
+            //generate the token and insert it in the database
+            //send a password reset email.
+        }
         
+        public function ResetPassword($token)
+        {
+            //confirm the token is in the db
+            //show them the change password screen - make them enter it twice
+        }
+        
+        public function UpdateUser($email,$password='') //make them enter the password twice...
+        {
+            //get uid from session
+            //update email for that uid
+            //did they send a password?
+            //update password for that uid
+        }
+        
+        /*
+         * Gets everything from the DB for this user
+         *
+         */
         private function GetUserFromEmail($email)
         {}
         
