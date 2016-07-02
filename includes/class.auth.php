@@ -89,7 +89,9 @@
          *
          */
         private function GetUserFromEmail($email)
-        {}
+        {
+            
+        }
         
         private function GetUserIdFromEmail($email)
         {}
