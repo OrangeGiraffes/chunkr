@@ -10,7 +10,7 @@ function GetConfig ($variable)
 
 function CheckLoginStatus ()
 {
-    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == GetCookie('taskdu')) { 
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == GetCookie('chunkr')) { 
         return true;
     }
     return false;

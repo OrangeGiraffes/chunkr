@@ -11,7 +11,7 @@
                     $sessionId = uniqid();
                     //Set Session Variable and Cookie
                     $_SESSION['user_logged_in'] = $sessionId;
-                    setcookie('taskdu',$sessionId,time()+24400,'/','/');
+                    setcookie('chunkr',$sessionId,time()+24400,'/','/');
                 }
             }else{
                 ThrowError('That email was invalid. Please try again.');
