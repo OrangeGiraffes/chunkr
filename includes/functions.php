@@ -18,7 +18,15 @@ function CheckLoginStatus ()
 
 function Parse ($templateFile)
 {
-    return preg_replace("/\{{([^\{]{1,100}?)\}}/e","\$GLOBALS['$1']",file_get_contents(APP_TEMPLATE_PATH . $templateFile . '.html'));
+    return ShowHeader() . preg_replace("/\{{([^\{]{1,100}?)\}}/e","\$GLOBALS['$1']",file_get_contents(APP_TEMPLATE_PATH . $templateFile . '.html')) . ShowFooter();
+}
+
+function ShowHeader(){
+    return preg_replace("/\{{([^\{]{1,100}?)\}}/e","\$GLOBALS['$1']",file_get_contents(APP_TEMPLATE_PATH . 'header.html'));
+}
+
+function ShowFooter(){
+    return preg_replace("/\{{([^\{]{1,100}?)\}}/e","\$GLOBALS['$1']",file_get_contents(APP_TEMPLATE_PATH . 'footer.html'));
 }
 
 function GetCookie ($cookieName)
