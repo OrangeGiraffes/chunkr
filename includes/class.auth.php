@@ -12,7 +12,7 @@
                     //Set Session Variable and Cookie
                     $_SESSION['user_logged_in'] = $sessionId;
                     $_SESSION['uid'] = GetUserIdFromEmail($email);
-                    setcookie('chunkr',$sessionId,time()+24400,'/','/');
+                    setcookie(strtolower($GLOBALS['APP_CFG']['APP_NAME']),$sessionId,time()+24400,'/','/');
                 }
             }else{
                 ThrowError('That email was invalid. Please try again.');
@@ -51,7 +51,7 @@
         
         public function DoLogout()
         {
-            setcookie('chunkr','',time()-10000,'/','/');
+            setcookie(strtolower($GLOBALS['APP_CFG']['APP_NAME']),'',time()-10000,'/','/');
             unset($_SESSION['user_logged_in']);
             unset($_SESSION['uid']);
             
@@ -68,8 +68,21 @@
         public function EmailResetLink()
         {
             //get the email from the post and validate
-            //generate the token and insert it in the database
-            //send a password reset email.
+            $email = strip_tags(strtolower($_POST['email']));
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                //generate the token and insert it in the database
+                $token = md5(uniqid());
+                //send a password reset email.
+                //create headers
+                $headers  = 'MIME-Version: 1.0' . "\r\n";
+		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		// Additional headers
+		$headers .= "To: " . $GLOBALS['APP_CFG']['APP_NAME'] . " User <$email>" . "\r\n";
+		$headers .= "From: " . $GLOBALS['APP_CFG']['APP_EMAIL'] . "\r\n" . "Reply-To: " . $GLOBALS['APP_CFG']['APP_EMAIL'] . "\r\n";
+                $content = 'Someone just requested a password reset for your account on ' . $GLOBALS['APP_CFG']['APP_NAME'] . '. If that was you, please click the link below.<br><br><a href="' . $GLOBALS['APP_CFG']['APP_LOCATION'] . '/forgot.php?token=' . $token . '">' . $GLOBALS['APP_CFG']['APP_LOCATION'] . '/forgot.php?token=' . $token . '</a><br><br>If you did not request a password reset, you may ignore this email. Your account has not been affected.';
+		//send mail
+                mail('','Someone requested a password reset of your ' . $GLOBALS['APP_CFG']['APP_NAME'] . ' account',$content,$headers);
+            }
         }
         
         public function ResetPassword($token)
