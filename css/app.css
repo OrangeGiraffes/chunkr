@@ -1,5 +1,94 @@
+<<<<<<< HEAD
+body {
+	font-family: 'Marvel', sans-serif;
+}
+
+ul {
+	list-style: none;
+}
+
+li {
+	margin: 0.5em;
+}
+
+.hidden {
+	display:none;
+}
+
+/*Login Screen.*/
+.LoginRegisterContainer {
+	width:500px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:15px;
+}
+
+.LoginRegisterContainer ul.tabs li {
+	cursor:pointer;
+	background-color:#333;
+	color:white;
+	display:inline-block;
+	width:200px;
+	padding:5px 10px;
+}
+
+.LoginRegisterContainer ul.tabs li.active {
+	cursor:default;
+	background-color:#fff;
+	color:#333;
+}
+
+.active {
+	display:inline-block;
+}
+
+#hero-quote-container {
+	text-align: center;
+}
+
+#hero-quote-container h2 {
+	font-size: 2em;
+	font-weight: 700;
+}
+
+#hero-quote-container h3 {
+	font-size: 1.5em;
+	font-weight: 400;
+}
+
+.task-label {
+	padding: 0 1em;
+}
+
+.edit, .delete {
+	background: transparent;
+	border: none;
+}
+
+.edit {
+	color: gray;
+}
+
+.delete {
+	color: red;
+}
+
+.complete label {
+	text-decoration: line-through;
+	color: #888;
+}
+
+li input[type="text"], li.edit-mode label.task-label {
+	display: none;
+}
+
+li.edit-mode input[type="text"], li label.task-label {
+	display: inline;
+}
+=======
 .LoginRegisterContainer {width:500px;margin-left:auto;margin-right:auto;padding:15px;}
 .LoginRegisterContainer ul.tabs li {cursor:pointer; background-color:#333;color:white;display:inline-block;width:200px; padding:5px 10px;}
 .LoginRegisterContainer ul.tabs li.active {cursor:default;background-color:#fff;color:#333;}
 .hidden{display:none;}
 .active{display:inline-block;}
+>>>>>>> 476d0c5c6a503a647742e142f1881cab01d9bdd5
