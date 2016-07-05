@@ -1,1 +1,28 @@
 <body>
+	<div id="wrapper">
+
+        <div class="container">
+            <header>
+                <h1>Chunkr</h1>
+                <div id="hero-quote-container"></div>
+            </header>
+        </div>
+
+        <div class="container">
+            <p>
+            <label for="new-task" class="task-label">Add Item</label><input id="new-task" type="text" value="New Task"><button id="add-button" onclick="addNewTask()">Add</button>
+            </p>
+                  
+            <h3>Todo</h3>
+            <ul id="incomplete-tasks">
+                <li><input type="checkbox"><label class="task-label">Pay Bills</label><input type="text" value="Pay Bills"><button class="edit">Edit</button><button class="delete">Delete</button></li>
+                <li><input type="checkbox"><label class="task-label">Go Shopping</label><input type="text" value="Go Shopping"><button class="edit">Edit</button><button class="delete">Delete</button></li>
+            </ul>
+                  
+            <h3>Completed</h3>
+            <ul id="completed-tasks">
+                <li class="complete"><input type="checkbox" checked><label class="task-label">See the Doctor</label><input type="text" value="See the Doctor"><button class="edit">Edit</button><button class="delete">Delete</button></li>
+            </ul>
+        </div>
+        
+    </div>
